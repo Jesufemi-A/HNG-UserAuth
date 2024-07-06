@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PasswordEncoderService implements PasswordEncoder {
+public class PasswordEncoderService  {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -15,12 +15,12 @@ public class PasswordEncoderService implements PasswordEncoder {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Override
+
     public String encode(CharSequence password) {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    @Override
+
     public boolean matches(CharSequence rawPassword, String password) {
         return bCryptPasswordEncoder.matches(rawPassword, password);
     }
