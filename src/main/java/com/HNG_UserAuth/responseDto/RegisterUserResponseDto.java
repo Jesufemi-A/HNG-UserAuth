@@ -1,22 +1,30 @@
 package com.HNG_UserAuth.responseDto;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-public class RegisterUserDto {
+public class RegisterUserResponseDto {
 
-    private int status;
+    private String status;
     private String message;
     private Data data;
 
-    public static class Data{
+    public RegisterUserResponseDto(String status, String message, Data data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
+    @lombok.Data
+    public static class Data {
         private String accessToken;
         private User user;
 
-        public static class User{
+
+        @lombok.Data
+        public static class User {
             private String userId;
             private String firstName;
             private String lastName;
@@ -25,12 +33,7 @@ public class RegisterUserDto {
         }
 
 
-
     }
 
-//    public RegisterUserDto(int status, String message){
-//        this.status = status;
-//        this.message = message;
-//    }
 
 }

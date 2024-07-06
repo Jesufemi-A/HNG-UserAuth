@@ -1,26 +1,24 @@
 package com.HNG_UserAuth.responseDto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-public class UserValidationDto {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserValidationErrorDto {
 
-    @Getter
-    @Setter
-    private List<ErrorDto> errors;
-
-    public static class ErrorDto{
-
-        @Getter
-        @Setter
-        private String field;
-
-        @Getter
-        @Setter
-        private String message;
-    }
+    private ErrorResponseDto errors;
 
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+   public static class ErrorResponseDto {
+
+       private String field;
+       private String message;
+   }
 
 }
