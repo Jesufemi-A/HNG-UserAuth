@@ -1,2 +1,8 @@
-package com.HNG_UserAuth.projectconfig;public class ProjectConfig {
+package com.HNG_UserAuth.projectconfig;
+
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ProjectConfig {
 }
