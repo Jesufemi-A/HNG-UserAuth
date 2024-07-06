@@ -3,6 +3,7 @@ package com.HNG_UserAuth.controllers;
 
 import com.HNG_UserAuth.models.UserModel;
 import com.HNG_UserAuth.responseDto.RegisterUserResponseDto;
+import com.HNG_UserAuth.responseDto.RegistrationErrorResponseDto;
 import com.HNG_UserAuth.responseDto.UserRegistrationDto;
 import com.HNG_UserAuth.services.JwtProviderService;
 import com.HNG_UserAuth.services.UserService;
@@ -31,54 +32,40 @@ public class UserController {
 
     @PostMapping("auth/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto) {
+        try {
 
-        UserModel user = new UserModel();
-        user.setFirstName(userRegistrationDto.getFirstName());
-        user.setLastName(userRegistrationDto.getLastName());
-        user.setPassword(userRegistrationDto.getPassword());
-        user.setEmail(userRegistrationDto.getEmail());
-        user.setPhone(userRegistrationDto.getPhone());
+            UserModel user = new UserModel();
+            user.setFirstName(userRegistrationDto.getFirstName());
+            user.setLastName(userRegistrationDto.getLastName());
+            user.setPassword(userRegistrationDto.getPassword());
+            user.setEmail(userRegistrationDto.getEmail());
+            user.setPhone(userRegistrationDto.getPhone());
 
-        UserModel registeredUser = userService.registerUser(user);
-
-
-        String accesstoken = jwtProviderService.generateToken(registeredUser);
-        var userDto = new RegisterUserResponseDto.Data.User();
-        userDto.setFirstName(registeredUser.getFirstName());
-        userDto.setLastName(registeredUser.getLastName());
-        userDto.setEmail(registeredUser.getEmail());
-        userDto.setUserId(registeredUser.getUserId());
-        userDto.setPhone(registeredUser.getPhone());
-
-        var data = new RegisterUserResponseDto.Data();
-        data.setAccessToken(accesstoken);
-        data.setUser(userDto);
+            UserModel registeredUser = userService.registerUser(user);
 
 
-        var registerUserDto = new RegisterUserResponseDto(201,
-                "User registration successful", data);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerUserDto);
+            String accesstoken = jwtProviderService.generateToken(registeredUser);
+            var userDto = new RegisterUserResponseDto.Data.User();
+            userDto.setFirstName(registeredUser.getFirstName());
+            userDto.setLastName(registeredUser.getLastName());
+            userDto.setEmail(registeredUser.getEmail());
+            userDto.setUserId(registeredUser.getUserId());
+            userDto.setPhone(registeredUser.getPhone());
+
+            var data = new RegisterUserResponseDto.Data();
+            data.setAccessToken(accesstoken);
+            data.setUser(userDto);
+
+
+            var registerUserDto = new RegisterUserResponseDto("success",
+                    "Registration successful", data);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registerUserDto);
+        } catch (Exception e) {
+            var errorResponseDto = new RegistrationErrorResponseDto("Bad request", "Registration unsuccessful", 400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseDto);
+
+        }
 
     }
-
-//    @PostMapping("/auth/login")
-//    public void login() {
-//
-//    }
-//
-//    @GetMapping("/api/organisation")
-//    public String getOrganisation() {
-//        return "";
-//    }
-//
-//    @GetMapping("/api/organisation/:orgid")
-//    public String getOrganisationId(String id) {
-//        return "";
-//    }
-//
-//    @PostMapping("/api/organisations")
-//    public void organisations() {
-//    }
-
 
 }
