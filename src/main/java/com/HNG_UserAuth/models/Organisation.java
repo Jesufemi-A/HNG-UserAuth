@@ -39,6 +39,6 @@ public class Organisation {
 
 
     @ManyToMany(mappedBy="organisations", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<User> userModels = new HashSet<>();
+    private Set<User> user = new HashSet<>();
 
 }

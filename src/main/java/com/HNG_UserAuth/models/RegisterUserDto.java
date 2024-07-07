@@ -21,7 +21,6 @@ public class RegisterUserDto {
     @NotNull
     @Email
     @Column(unique = true)
-    @Email
     private String email;
 
 

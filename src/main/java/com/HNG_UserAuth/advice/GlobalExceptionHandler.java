@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
             errors.add(new UserValidationErrorDto.ErrorResponseDto(error.getField(), error.getDefaultMessage()));
         }
 
-        UserValidationErrorDto userValidationErrorDto = new UserValidationErrorDto((UserValidationErrorDto.ErrorResponseDto) errors);
+        var userValidationErrorDto = new UserValidationErrorDto((UserValidationErrorDto.ErrorResponseDto) errors);
 
         return new ResponseEntity<UserValidationErrorDto>(userValidationErrorDto, HttpStatus.UNPROCESSABLE_ENTITY);
 

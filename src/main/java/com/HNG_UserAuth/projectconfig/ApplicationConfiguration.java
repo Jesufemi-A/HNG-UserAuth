@@ -2,6 +2,7 @@ package com.HNG_UserAuth.projectconfig;
 
 
 import com.HNG_UserAuth.repository.UserRepository;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
+@ComponentScan(basePackages = {"com.HNG_UserAuth.projectconfig"})
 public class ApplicationConfiguration {
     private final UserRepository userRepository;
 

@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
+
+    Logger logger = Logger.getLogger("AuthenticationController.class");
+
 
     private final AuthenticationService authenticationService;
 
@@ -30,9 +35,13 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
 
+
+        System.out.println("succsessseseses");
+
+
         try {
 
-
+            System.out.println("Start");
             User registeredUser = authenticationService.signup(registerUserDto);
 
             String accesstoken = jwtService.generateToken(registeredUser);
@@ -47,10 +56,13 @@ public class AuthenticationController {
             data.setAccessToken(accesstoken);
             data.setUser(userDto);
 
+//            logger.info("token: "  + data.getAccessToken());
 
             var regUserDto = new RegisterUserResponseDto("success",
                     "Registration successful", data);
-            return ResponseEntity.status(HttpStatus.CREATED).body(regUserDto);
+
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("success");
         } catch (Exception e) {
             var errorResponseDto = new RegistrationErrorResponseDto("Bad request", "Registration unsuccessful", 400);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseDto);
@@ -60,7 +72,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity authenticate(@RequestBody LoginUserDto loginUserDto) {
         try {
             User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
@@ -80,7 +92,7 @@ public class AuthenticationController {
 
             String jwtToken = jwtService.generateToken(authenticatedUser);
 
-            var loginResponse = new RegisterUserResponseDto("success", "Login sucessfull", data);
+            var loginResponse = new RegisterUserResponseDto("success", "Login sucessful", data);
 
 //                loginResponse.setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
 
