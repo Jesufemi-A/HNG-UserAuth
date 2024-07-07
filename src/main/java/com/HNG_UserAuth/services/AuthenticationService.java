@@ -1,10 +1,10 @@
 package com.HNG_UserAuth.services;
 
 
-import com.HNG_UserAuth.models.LoginUserDto;
-import com.HNG_UserAuth.models.RegisterUserDto;
-import com.HNG_UserAuth.models.User;
+import com.HNG_UserAuth.models.*;
 import com.HNG_UserAuth.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,15 +29,25 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public User signup(RegisterUserDto input) {
         User user = new User();
         user.setFirstName(input.getFirstName());
         user.setLastName(input.getLastName());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setEmail(input.getEmail());
-        user.setPassword(input.getPassword());
+
+        Organisation organisation = createOrganisation(input.getFirstName());
+        user.getOrganisations().add(organisation);
+
 
         return userRepository.save(user);
+    }
+
+    public Organisation createOrganisation(String firstName) {
+        Organisation organisation = new Organisation(firstName + "'s "
+                + "Organisation");
+        return organisation;
     }
 
     public User authenticate(LoginUserDto input) {
