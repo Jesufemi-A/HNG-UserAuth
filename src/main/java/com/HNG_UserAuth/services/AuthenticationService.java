@@ -38,6 +38,7 @@ public class AuthenticationService {
         user.setEmail(input.getEmail());
 
         Organisation organisation = createOrganisation(input.getFirstName());
+        organisation.getUser().add(user);
         user.getOrganisations().add(organisation);
 
 
