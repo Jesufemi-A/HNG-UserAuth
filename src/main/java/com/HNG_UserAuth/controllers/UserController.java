@@ -1,11 +1,11 @@
 package com.HNG_UserAuth.controllers;
 
 
-import com.HNG_UserAuth.models.UserModel;
+import com.HNG_UserAuth.models.User;
 import com.HNG_UserAuth.responseDto.RegisterUserResponseDto;
 import com.HNG_UserAuth.responseDto.RegistrationErrorResponseDto;
 import com.HNG_UserAuth.responseDto.UserRegistrationDto;
-import com.HNG_UserAuth.services.JwtProviderService;
+import com.HNG_UserAuth.services.JwtService;
 import com.HNG_UserAuth.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,10 @@ public class UserController {
 
 
     private final UserService userService;
-    private final JwtProviderService jwtProviderService;
+    private final JwtService jwtProviderService;
 
     @Autowired
-    public UserController(UserService userService, JwtProviderService jwtProviderService) {
+    public UserController(UserService userService, JwtService jwtProviderService) {
         this.userService = userService;
         this.jwtProviderService = jwtProviderService;
     }
@@ -34,14 +34,14 @@ public class UserController {
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto userRegistrationDto) {
         try {
 
-            UserModel user = new UserModel();
+            User user = new User();
             user.setFirstName(userRegistrationDto.getFirstName());
             user.setLastName(userRegistrationDto.getLastName());
             user.setPassword(userRegistrationDto.getPassword());
             user.setEmail(userRegistrationDto.getEmail());
             user.setPhone(userRegistrationDto.getPhone());
 
-            UserModel registeredUser = userService.registerUser(user);
+            User registeredUser = userService.registerUser(user);
 
 
             String accesstoken = jwtProviderService.generateToken(registeredUser);

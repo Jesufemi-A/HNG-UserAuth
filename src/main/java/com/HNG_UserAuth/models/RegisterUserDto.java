@@ -8,7 +8,7 @@ import lombok.Data;
 
 
 @Data
-public class UserReg {
+public class RegisterUserDto {
 
     @NotNull
     @Size(min = 1, message = "First name must not be empty")

@@ -3,13 +3,11 @@ package com.HNG_UserAuth.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "organisation")
@@ -41,6 +39,6 @@ public class Organisation {
 
 
     @ManyToMany(mappedBy="organisations", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<UserModel> userModels = new HashSet<>();
+    private Set<User> userModels = new HashSet<>();
 
 }

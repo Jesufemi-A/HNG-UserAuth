@@ -1,12 +1,11 @@
 package com.HNG_UserAuth.controllers;
 
 
-import com.HNG_UserAuth.models.LoginDetails;
-import com.HNG_UserAuth.models.UserModel;
+import com.HNG_UserAuth.models.LoginUserDto;
+import com.HNG_UserAuth.models.User;
 import com.HNG_UserAuth.responseDto.RegisterUserResponseDto;
 import com.HNG_UserAuth.responseDto.RegistrationErrorResponseDto;
-import com.HNG_UserAuth.services.JwtProviderService;
-import com.HNG_UserAuth.services.PasswordEncoderService;
+import com.HNG_UserAuth.services.JwtService;
 import com.HNG_UserAuth.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogInController {
 
     private final UserService userService;
-    private JwtProviderService jwtProviderService;
+    private JwtService jwtProviderService;
 
     public LogInController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity login(@RequestBody LoginDetails loginDetails) {
+    public ResponseEntity login(@RequestBody LoginUserDto loginDetails) {
 
 
         try {
 
-            UserModel user = userService.authenticateUser(loginDetails.getEmail(), loginDetails.getPassword());
+            User user = userService.authenticateUser(loginDetails.getEmail(), loginDetails.getPassword());
 
             if (user == null) {
                 var errorResponseDto = new RegistrationErrorResponseDto("Bad request", "Registration unsuccessful", 400);
